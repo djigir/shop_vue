@@ -153,15 +153,31 @@
                                                 class="right-box justify-content-md-between justify-content-center wow fadeInUp animated">
                                             <div class="short-by">
                                                 <div class="select-box">
-                                                    <select class="wide">
-                                                        <option data-display="Short by latest">Featured </option>
-                                                        <option value="1">Best selling </option>
-                                                        <option value="2">Alphabetically, A-Z</option>
-                                                        <option value="3">Alphabetically, Z-A</option>
-                                                        <option value="3">Price, low to high</option>
-                                                        <option value="3">Price, high to low</option>
-                                                        <option value="3">Date, old to new</option>
+
+
+
+
+
+
+
+
+                                                    <select @change="sortBy" class="wide">
+                                                        <option selected disabled>Сортировка</option>
+                                                        <option v-for="sort in filterList.sorting">{{ sort }}</option>
                                                     </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                 </div>
                                             </div>
                                             <div class="product-view-style d-flex justify-content-md-between justify-content-center">
@@ -204,7 +220,8 @@
                                                         </a>
                                                             <div class="products-grid-one__badge-box"> <span
                                                                     class="bg_base badge new ">New</span>
-                                                            </div> <a href="cart.html" class="addcart btn--primary style2">
+                                                            </div>
+                                                            <a @click.prevent="addToCart(product.id, true)" href="cart.html" class="addcart btn--primary style2">
                                                                 Add To Cart </a>
                                                             <div class="products-grid__usefull-links">
                                                                 <ul>
@@ -287,7 +304,7 @@
                                                                                         <span class="increaseQty"> <i
                                                                                                 class="flaticon-plus"></i>
                                                                                     </span> </div>
-                                                                                    <button class="btn--primary "> Add to
+                                                                                    <button @click.prevent="addToCart(product.id)" class="btn--primary "> Add to
                                                                                         Cart </button>
                                                                                 </div>
                                                                             </div>
@@ -308,7 +325,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="products-three-single-content text-center"> <span>{{ product.category.title }}</span>
-                                                            <h5><a href="shop-details-3.html"> {{ product.title }}</a></h5>
+                                                            <h5>
+                                                                <router-link  :to="{name: 'products.show', params: {id: product.id}}"> {{ product.title }}</router-link>
+                                                            </h5>
                                                             <p>
                                                                 <del>$200.00</del>
                                                                 $ {{ product.price }}
@@ -335,117 +354,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <!-- попап товара в виде списка -->
-                                                        <div :id="`popup${product.id}`" class="product-gird__quick-view-popup mfp-hide">
-                                                            <div class="container">
-                                                                <div class="row justify-content-between align-items-center">
-                                                                    <div class="col-lg-6">
-                                                                        <div class="quick-view__left-content">
-                                                                            <div class="tabs">
-                                                                                <div class="popup-product-thumb-box">
-                                                                                    <ul>
-                                                                                        <li
-                                                                                                class="tab-nav popup-product-thumb">
-                                                                                            <a href="#tab7111111b"> <img
-                                                                                                    src="src/assets/images/shop/shop-grid-page-img1.jpg"
-                                                                                                    alt="" /> </a> </li>
-                                                                                        <li
-                                                                                                class="tab-nav popup-product-thumb ">
-                                                                                            <a href="#tab8111111b"> <img
-                                                                                                    src="src/assets/images/shop/shop-grid-page-img2.jpg"
-                                                                                                    alt="" /> </a> </li>
-                                                                                        <li
-                                                                                                class="tab-nav popup-product-thumb ">
-                                                                                            <a href="#tab9111111b"> <img
-                                                                                                    src="src/assets/images/shop/shop-grid-page-img3.jpg"
-                                                                                                    alt="" /> </a> </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                                <div class="popup-product-main-image-box">
-                                                                                    <div id="tab7111111b"
-                                                                                         class="tab-item popup-product-image">
-                                                                                        <div
-                                                                                                class="popup-product-single-image">
-                                                                                            <img src="src/assets/images/shop/shop-grid-page-img1.jpg"
-                                                                                                 alt="" /> </div>
-                                                                                    </div>
-                                                                                    <div id="tab8111111b"
-                                                                                         class="tab-item popup-product-image">
-                                                                                        <div
-                                                                                                class="popup-product-single-image">
-                                                                                            <img src="src/assets/images/shop/shop-grid-page-img2.jpg"
-                                                                                                 alt="" /> </div>
-                                                                                    </div>
-                                                                                    <div id="tab9111111b"
-                                                                                         class="tab-item popup-product-image">
-                                                                                        <div
-                                                                                                class="popup-product-single-image">
-                                                                                            <img src="src/assets/images/shop/shop-grid-page-img3.jpg"
-                                                                                                 alt="" /> </div>
-                                                                                    </div> <button class="prev"> <i
-                                                                                        class="flaticon-back"></i>
-                                                                                </button> <button class="next"> <i
-                                                                                        class="flaticon-next"></i>
-                                                                                </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <div class="popup-right-content">
-                                                                            <h3>Round Small Table </h3>
-                                                                            <div class="ratting"> <i
-                                                                                    class="flaticon-star"></i> <i
-                                                                                    class="flaticon-star"></i> <i
-                                                                                    class="flaticon-star"></i> <i
-                                                                                    class="flaticon-star"></i> <i
-                                                                                    class="flaticon-star"></i>
-                                                                                <span>(123)</span> </div>
-                                                                            <p class="text"> Wooden Tables to Brighten Your
-                                                                                Dining Room </p>
-                                                                            <div class="price">
-                                                                                <h2> $50 USD <del> $105 USD</del></h2>
-                                                                                <h6> In stuck</h6>
-                                                                            </div>
-                                                                            <div class="color-varient"> <a href="#0"
-                                                                                                           class="color-name pink">
-                                                                                <span>Pink</span> </a> <a href="#0"
-                                                                                                          class="color-name red"> <span>Red</span>
-                                                                            </a> <a href="#0"
-                                                                                    class="color-name yellow"><span>Yellow</span>
-                                                                            </a> <a href="#0" class="color-name blue">
-                                                                                <span>Blue</span> </a> <a href="#0"
-                                                                                                          class="color-name black">
-                                                                                <span>Black</span> </a> </div>
-                                                                            <div class="add-product">
-                                                                                <h6>Qty:</h6>
-                                                                                <div class="button-group">
-                                                                                    <div class="qtySelector text-center">
-                                                                                    <span class="decreaseQty"><i
-                                                                                            class="flaticon-minus"></i>
-                                                                                    </span> <input type="number"
-                                                                                                   class="qtyValue" value="1" />
-                                                                                        <span class="increaseQty"> <i
-                                                                                                class="flaticon-plus"></i>
-                                                                                    </span> </div> <button
-                                                                                        class="btn--primary "> Add to Cart
-                                                                                </button>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="payment-method"> <a href="#0"> <img
-                                                                                    src="src/assets/images/payment_method/method_1.png"
-                                                                                    alt=""> </a> <a href="#0"> <img
-                                                                                    src="src/assets/images/payment_method/method_2.png"
-                                                                                    alt=""> </a> <a href="#0"> <img
-                                                                                    src="src/assets/images/payment_method/method_3.png"
-                                                                                    alt=""> </a> <a href="#0"> <img
-                                                                                    src="src/assets/images/payment_method/method_4.png"
-                                                                                    alt=""> </a> </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
 
 
 
@@ -484,18 +393,40 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" v-if="pagination.last_page > 1">
                                 <div class="col-12 d-flex justify-content-center wow fadeInUp animated">
                                     <ul class="pagination text-center">
-                                        <li class="next"><a href="#0"><i class="flaticon-left-arrows"
-                                                                         aria-hidden="true"></i> </a></li>
-                                        <li><a href="#0">1</a></li>
-                                        <li><a href="#0" class="active">2</a></li>
-                                        <li><a href="#0">3</a></li>
-                                        <li><a href="#0">...</a></li>
-                                        <li><a href="#0">10</a></li>
-                                        <li class="next"><a href="#0"><i class="flaticon-next-1"
-                                                                         aria-hidden="true"></i> </a></li>
+                                        <li v-if="pagination.current_page !== 1" class="next">
+                                            <a @click.prevent="getProducts(pagination.current_page - 1)" href="#0">
+                                                <i class="flaticon-left-arrows" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+
+                                        <li v-for="link in pagination.links">
+                                            <template v-if="Number(link.label) &&
+                                                (pagination.current_page - link.label < 2 &&
+                                                pagination.current_page - link.label > -2) ||
+                                                Number(link.label) === 1 || Number(link.label) === pagination.last_page">
+
+                                                <a @click.prevent="getProducts(link.label)" :class="link.active ? 'active' : ''" href="#0">{{ link.label }}</a>
+                                            </template>
+                                            <template v-if="Number(link.label) &&
+                                            pagination.current_page !== 3 &&
+                                            (pagination.current_page - link.label === 2) ||
+
+                                            Number(link.label) &&
+                                            pagination.current_page !== pagination.last_page - 2 &&
+                                            (pagination.current_page - link.label === -2)">
+                                                <a>...</a>
+                                            </template>
+                                        </li>
+
+                                        <li v-if="pagination.current_page !== pagination.last_page" class="next">
+                                            <a @click.prevent="getProducts(pagination.current_page + 1)" href="#0">
+                                                <i class="flaticon-next-1" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -527,29 +458,49 @@
                 colors: [],
                 tags: [],
                 prices: [],
+                sortType: [],
+                pagination: [],
             }
         },
 
         methods: {
 
+            addToCart(id, isSingle) {
+
+                let qty = isSingle ? 1 : $('.qtyValue').val()
+                let cart = localStorage.getItem('cart')
+                $('.qtyValue').val(1)
+
+                let newProduct = [
+                    {
+                        'id': id,
+                        'qty': qty
+                    }
+                ]
+
+                if (!cart) {
+                    localStorage.setItem('cart', JSON.stringify(newProduct))
+                } else {
+                    cart = JSON.parse(cart)
+
+                    cart.forEach(productInCart => {
+                        if (productInCart.id === id) {
+                            productInCart.qty = Number(productInCart.qty) + Number(qty)
+                            newProduct = null
+                        }
+                    })
+
+                    Array.prototype.push.apply(cart, newProduct)
+
+                    localStorage.setItem('cart', JSON.stringify(cart))
+                }
+            },
+
             filterProducts() {
                 let prices = $('#priceRange').val()
                 this.prices = prices.replace(/[\s+]|[$]/g, '').split('-')
 
-                this.axios.post('http://shop.local/api/products', {
-                    'categories': this.categories,
-                    'colors': this.colors,
-                    'tags': this.tags,
-                    'prices': this.prices
-                })
-                    .then(res => {
-                        this.products = res.data.data
-                        console.log(res)
-                    })
-                    .finally( v => {
-                        $(document).trigger('changed')
-                    })
-
+                this.getProducts()
             },
 
             addColor(id) {
@@ -572,12 +523,17 @@
                 }
             },
 
-            getProducts() {
+            getProducts(page = 1) {
                 this.axios.post('http://shop.local/api/products', {
-
+                    'categories': this.categories,
+                    'colors': this.colors,
+                    'tags': this.tags,
+                    'prices': this.prices,
+                    'page': page
                 })
                 .then(res => {
                     this.products = res.data.data
+                    this.pagination = res.data.meta
                     console.log(res)
                 })
                 .finally( v => {
@@ -616,6 +572,26 @@
                     .finally( v => {
                         $(document).trigger('changed')
                     })
+            },
+
+
+
+
+
+
+            sortBy(event) {
+                let value = event.target.value
+
+                // TODO добавить desc или asc в массив
+
+                if (value && !this.sortType.includes(value)) {
+                    this.sortType.push(value)
+                } else {
+                    this.sortType = this.sortType.filter( elem => {
+                        return elem !== value
+                    })
+                }
+
             },
 
         }
